@@ -5,6 +5,7 @@ import tar from 'tar'
 
 import deployer from '../../deployer'
 import Command, {ServiceID} from '../../service-command'
+import {OpError} from '../../error'
 
 export default class ServiceDeploy extends Command {
   static description = 'Deploy a service'
@@ -33,9 +34,10 @@ export default class ServiceDeploy extends Command {
     let deployed: ServiceID[] = []
     for (const arg of argv) {
       this.spinner.status = 'Download sources'
-      const path = await deployer(arg)
 
       try {
+        const path = await deployer(arg)
+
         deployed.push(await new Promise((resolve: (value: ServiceID) => void, reject: (reason: Error) => void) => {
           const stream = this.mesg.api.DeployService()
           stream.on('error', (error: Error) => {
@@ -54,7 +56,7 @@ export default class ServiceDeploy extends Command {
             })
         }))
       } catch (e) {
-        this.error(e)
+        throw new OpError(e)
       }
     }
     this.spinner.stop(deployed.map((x: any) => x.sid).join(', '))

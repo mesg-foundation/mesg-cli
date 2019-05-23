@@ -5,6 +5,8 @@ import {Application, EventData, Stream} from 'mesg-js/lib/application'
 import {checkStreamReady, errNoStatus} from 'mesg-js/lib/util/grpc'
 import {format, inspect} from 'util'
 
+import {OpError} from './error'
+
 type UNARY_METHODS = 'DeleteService'
   | 'GetService'
   | 'ListServices'
@@ -52,7 +54,7 @@ export default abstract class extends Command {
 
   require(condition: any, errorMessage: string) {
     if (!condition) {
-      throw new Error(errorMessage)
+      throw new OpError(errorMessage)
     }
   }
 

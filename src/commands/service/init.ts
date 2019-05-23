@@ -6,6 +6,7 @@ import {join} from 'path'
 
 import deployer from '../../deployer'
 import Command from '../../service-command'
+import {OpError} from '../../error'
 
 const templatesURL = 'https://raw.githubusercontent.com/mesg-foundation/awesome/master/templates.json'
 
@@ -58,7 +59,7 @@ export default class ServiceInit extends Command {
 
     const selectedTemplate = templates.find(x => x.name === value)
     if (!selectedTemplate) {
-      throw new Error(`The template "${value}" is not valid`)
+      throw new OpError(`The template "${value}" is not valid`)
     }
     return selectedTemplate.url
   }

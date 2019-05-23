@@ -7,6 +7,7 @@ import {Service, ServiceID} from '../../service-command'
 import services from '../../services'
 import ServiceDeploy from '../service/deploy'
 import ServiceDetail from '../service/detail'
+import {OpError} from '../../error'
 
 const ipfsClient = require('ipfs-http-client')
 
@@ -99,7 +100,7 @@ export default class MarketplacePublish extends Command {
   private async upload(buffer: Buffer): Promise<string> {
     const res = await this.IPFS.add(Buffer.from(buffer), {pin: false})
     if (!res.length) {
-      throw new Error('Error with the generation of your manifest')
+      throw new OpError('Error with the generation of your manifest')
     }
     return res[0].hash
   }
