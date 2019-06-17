@@ -3,7 +3,7 @@ import {flags} from '@oclif/command'
 import Command from '../../service-command'
 
 export default class ServiceDeployNew extends Command {
-  static description = 'Stop a service instance'
+  static description = 'Start a service instance'
 
   static flags = {
     ...Command.flags,
