@@ -32,7 +32,7 @@ export default class ServiceDeployNew extends Command {
           this.spinner.stop(err)
           return
         }
-        this.spinner.stop(resp.hash)
+        this.spinner.stop(resp.instance.hash)
         resolve(resp.hash)
       })
     })

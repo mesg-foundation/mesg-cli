@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "protobuf/definition/instance.proto";
+
 package api;
 
 service Instance {
@@ -12,6 +14,5 @@ message CreateInstanceRequest {
 }
 
 message CreateInstanceResponse {
-  string hash = 1;        // Service's instance hash.
-  string serviceHash = 2; // Service's bare hash.
+  definition.Instance instance = 1;
 }
