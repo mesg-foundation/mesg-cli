@@ -1,3 +1,5 @@
+import {flags} from '@oclif/command'
+
 import Command from '../../service-command'
 
 export default class ServiceDeployNew extends Command {
@@ -5,6 +7,7 @@ export default class ServiceDeployNew extends Command {
 
   static flags = {
     ...Command.flags,
+    keepData: flags.boolean({description: 'Do not delete instance\'s persistent data'}),
   }
 
   static args = [{
@@ -16,10 +19,10 @@ export default class ServiceDeployNew extends Command {
   static hidden = true
 
   async run() {
-    const {args} = this.parse(ServiceDeployNew)
+    const {args, flags} = this.parse(ServiceDeployNew)
     this.spinner.start('Stop service')
     return new Promise((resolve, reject) => {
-      this.instanceAPI.Delete({hash: args.INSTANCE}, err => {
+      this.instanceAPI.Delete({hash: args.INSTANCE, deleteData: !flags.keepData}, err => {
         if (err) {
           reject(err)
           this.spinner.stop(err)
